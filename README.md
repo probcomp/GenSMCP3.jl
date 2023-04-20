@@ -1,7 +1,7 @@
 # GenSMCP3.jl
-Automated Sequential Monte Carlo with Probabilistic Program Proposals (SMCP<sup>3</sup>), for [Gen](gen.dev).
+Automated Sequential Monte Carlo with Probabilistic Program Proposals (SMCP<sup>3</sup>), for [Gen](https://gen.dev).
 
-SMCP<sup>3</sup> is a family of Sequential Monte Carlo algorithms in which particle-updating proposal distributions can be any member of a very broad class of probabilistic programs.  Given probabilistic programs representing the proposal distributions, and the probabilistic model targetted by inference, SMCP<sup>3</sup> automatically generates a particle filter that can be used to perform inference in the targetted model.  This repository contains a Julia implementation of automated SMCP<sup>3</sup>, for use with the [Gen](gen.dev) probabilistic programming language.
+SMCP<sup>3</sup> is a family of Sequential Monte Carlo algorithms in which particle-updating proposal distributions can be any member of a very broad class of probabilistic programs.  Given probabilistic programs representing the proposal distributions, and the probabilistic model targetted by inference, SMCP<sup>3</sup> automatically generates a particle filter that can be used to perform inference in the targetted model.  This repository contains a Julia implementation of automated SMCP<sup>3</sup>, for use with the [Gen](https://gen.dev) probabilistic programming language.
 
 For details about SMCP<sup>3</sup>, please see our paper:
 ```
@@ -13,7 +13,7 @@ AISTATS 2023
 ## Installation
 GenSMCP3 is implemented in [Julia](https://julialang.org/).
 
-GenSMCP3 interoperates with the [Gen](gen.dev) probabilistic programming language, and the [GenParticleFilters](github.com/probcomp/GenParticleFilters.jl) module of Gen, which adds sequential Monte Carlo (particle filtering) functionality to Gen.
+GenSMCP3 interoperates with the [Gen](https://gen.dev) probabilistic programming language, and the [GenParticleFilters](https://github.com/probcomp/GenParticleFilters.jl) module of Gen, which adds sequential Monte Carlo (particle filtering) functionality to Gen.
 
 To install GenSMCP3, first install Gen and ParticleFilters, then install GenSMCP3.  From the Julia REPL:
 ```julia
@@ -157,7 +157,7 @@ end
 ```
 
 ### Running Sequential Monte Carlo
-Using these proposal distributions, we can define a full sequential Monte Carlo algorithm which uses SMCP<sup>3</sup> to update the particles.  We use the `pf_initialize` and `pf_update!` methods from the library [GenParticleFilters](github.com/probcomp/GenParticleFilters.jl) to define the sequential Monte Carlo algorithm.  `pf_initialize` initializes a particle filter by initializing `n_particles` latent hypotheses ("particles").  Then, whenever a new observed value becomes available, the `pf_update!` method is used to update the particles in light of the new observation.  We use an `SMCP3Update` to specify that we want to use SMCP<sup>3</sup> to update the particles.  The `SMCP3Update` constructor takes as arguments the forward and backward proposal distributions we defined above.
+Using these proposal distributions, we can define a full sequential Monte Carlo algorithm which uses SMCP<sup>3</sup> to update the particles.  We use the `pf_initialize` and `pf_update!` methods from the library [GenParticleFilters](https://github.com/probcomp/GenParticleFilters.jl) to define the sequential Monte Carlo algorithm.  `pf_initialize` initializes a particle filter by initializing `n_particles` latent hypotheses ("particles").  Then, whenever a new observed value becomes available, the `pf_update!` method is used to update the particles in light of the new observation.  We use an `SMCP3Update` to specify that we want to use SMCP<sup>3</sup> to update the particles.  The `SMCP3Update` constructor takes as arguments the forward and backward proposal distributions we defined above.
 
 ```julia
 import GenSMCP3: SMCP3Update
@@ -227,7 +227,7 @@ See [this notebook](examples/notebooks/Very_Simple_Example.ipynb) to run this ex
 ## Writing probabilistic program proposals
 GenSMCP3 exposes a new DSL for writing probabilistic programs which are to be used as proposal distributions.  Probabilistic programs are written in this DSL using Julia functions preceded by the `@kernel` macro.
 
-(A different DSL than Gen's regular probabilistic-program DSL is necessary due to limitations in Gen's current support for automatic-differentiation through probabilistic programs.  Improvements to this support are under-way in in-developments variants of Gen, such as [GenJax](github.com/probcomp/genjax).)
+(A different DSL than Gen's regular probabilistic-program DSL is necessary due to limitations in Gen's current support for automatic-differentiation through probabilistic programs.  Improvements to this support are under-way in in-developments variants of Gen, such as [GenJax](https://github.com/probcomp/genjax).)
 
 ### The `@kernel` DSL
 Probabilistic program proposals are written in the `@kernel` DSL.  (It is called the `@kernel` DSL because it is used to write proposals, which are [Markov Kernels](https://en.wikipedia.org/wiki/Markov_kernel).)  A probabilistic program written in this DSL (which we will call a kernel) is written as a Julia function preceded by the `@kernel` macro.  It may accept arguments, and should return a value.  (In SMCP3, the return value should be a pair of choicemaps: one specifying how to update the model trace, and one constraining the choices of the backward/forward proposal.)  The first argument value to a kernel will always be a trace of the model probabilistic program, to which the kernel is supposed to propose an update.
@@ -245,8 +245,8 @@ No stochasticity should be invoked in a kernel, except through `~` expressions.
 
 ## Implementation of automated SMCP<sup>3</sup>, and related libraries
 This implementation of automated SMCP<sup>3</sup> is implemented in this repository, and the following two repositories we developed in the process of developing SMCP<sup>3</sup>:
-1. [GenTraceKernelDSL](github.com/probcomp/GenTraceKernelDSL.jl): this introduces the DSL for writing probabilistic programs which are to be used as proposal distributions.  (The `@kernel` macro is a re-export from this library.)
-2. [DynamicForwardDiff](github.com/probcomp/DynamicForwardDiff.jl): this is an implementation of automatically sparsity-aware forward-mode automatic differentiation.  It is used to compute change-of-measures correction terms needed for the implementation of SMCP<sup>3</sup>.  In SMCP3, this correction is the absolute value of the determinant Jacobian of the function which maps the inputs to a probabilistic program proposal, and the collection of random choices of that probabilistic program, to the output of the probabilistic program proposal.  (See Theorem 2 of our paper for details.)
+1. [GenTraceKernelDSL](https://github.com/probcomp/GenTraceKernelDSL.jl): this introduces the DSL for writing probabilistic programs which are to be used as proposal distributions.  (The `@kernel` macro is a re-export from this library.)
+2. [DynamicForwardDiff](https://github.com/probcomp/DynamicForwardDiff.jl): this is an implementation of automatically sparsity-aware forward-mode automatic differentiation.  It is used to compute change-of-measures correction terms needed for the implementation of SMCP<sup>3</sup>.  In SMCP3, this correction is the absolute value of the determinant Jacobian of the function which maps the inputs to a probabilistic program proposal, and the collection of random choices of that probabilistic program, to the output of the probabilistic program proposal.  (See Theorem 2 of our paper for details.)
 
 ### Citation
 Please cite
