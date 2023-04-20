@@ -1,0 +1,14 @@
+name = "GenSMCP3"
+uuid = "6e3e2a6b-0f0c-4e92-9366-99a169bb9780"
+authors = ["George Matheos <georgematheos@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
+DynamicForwardDiff = "fe4ab2f8-f6ba-4905-aa0c-1342e36db709"
+Gen = "ea4f424c-a589-11e8-07c0-fd5c91b9da4a"
+GenParticleFilters = "56b76ac4-72ef-411e-b419-6d312ed86a6f"
+GenTraceKernelDSL = "291bb3ad-7d9c-4053-a5d5-3e3d67792b79"
+IJulia = "7073ff75-c697-5162-941a-fcdaad2a7d2a"
+Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
+WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
