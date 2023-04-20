@@ -11,7 +11,11 @@ AISTATS 2023
 ```
 
 ## Installation
-GenSMCP3 interoperates with the [Gen](gen.dev) probabilistic programming language, and the [GenParticleFilters](github.com/probcomp/GenParticleFilters.jl) module of Gen, which adds sequential Monte Carlo (particle filtering) functionality to Gen.  To install GenSMCP3, first install Gen and ParticleFilters, then install GenSMCP3:
+GenSMCP3 is implemented in [Julia](https://julialang.org/).
+
+GenSMCP3 interoperates with the [Gen](gen.dev) probabilistic programming language, and the [GenParticleFilters](github.com/probcomp/GenParticleFilters.jl) module of Gen, which adds sequential Monte Carlo (particle filtering) functionality to Gen.
+
+To install GenSMCP3, first install Gen and ParticleFilters, then install GenSMCP3.  From the Julia REPL:
 ```julia
 ] add Gen
 ] add GenParticleFilters
