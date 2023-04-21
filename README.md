@@ -9,6 +9,7 @@ SMCP3: Sequential Monte Carlo with Probabilistic Program Proposals
 Alex Lew*, George Matheos*, Tan Zhi-Xuan, Matin Ghavamizadeh, Nishad Gothoskar, Stuart Russell, Vikash Mansinghka
 AISTATS 2023
 ```
+For the code used to generate the results and figures in the paper, see [this repository](https://github.com/probcomp/aistats2023-smcp3).
 
 ## Installation
 GenSMCP3 is implemented in [Julia](https://julialang.org/).
