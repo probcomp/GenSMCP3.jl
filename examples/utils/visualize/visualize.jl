@@ -126,11 +126,11 @@ function plot_single_panel(
 
     f[2, :] = t_label = Label(f, lift(t -> "t = $t", t))
 
-    l = make_legend(f[3, 1], (heatmaps, occluder, particles, obs), (hm, occ, obsplt, particle_plt), particle_filter_description)
+    # l = make_legend(f[3, 1], (heatmaps, occluder, particles, obs), (hm, occ, obsplt, particle_plt), particle_filter_description)
 
-    f[4, :] = model_label_element = Label(f, model_label; justification=:left)
+    # f[4, :] = model_label_element = Label(f, model_label; justification=:left)
 
-    for element in (l, t_label, model_label_element)
+    for element in (t_label,)
         element.tellheight = true
         element.tellwidth = false
     end
@@ -179,11 +179,11 @@ function plot_multiple_inference_grids(
     c = axes_layout[1, i] = Colorbar(axes_layout[1, i], hm; vertical=true)
 
     f[2, :] = t_label = Label(f, lift(t -> "t = $t", t))
-    l = make_legend(f[3, 1], (heatmaps, occluder, first(inference_labels_and_t_to_particles)[2], obs), (hm, occ, obsplt, particle_plt), "inference")
+    # l = make_legend(f[3, 1], (heatmaps, occluder, first(inference_labels_and_t_to_particles)[2], obs), (hm, occ, obsplt, particle_plt), "inference")
 
-    f[4, :] = model_label_element = Label(f, model_label; justification=:left)
+    # f[4, :] = model_label_element = Label(f, model_label; justification=:left)
 
-    for element in (l, t_label, model_label_element)
+    for element in (t_label)
         element.tellheight = true
         element.tellwidth = false
     end

@@ -21,7 +21,8 @@ function setup_ax(domain; kwargs...)
             kwargs[:resolution]
         else
             dx, dy = domain
-            dx[2] - dx[1] < 15 ? (700, 800) : (900, 1000)
+            (600, 700)
+            # dx[2] - dx[1] < 15 ? (700, 800) : (450, 500)
         end
     f = Figure(; kwargs..., resolution)
     ax = Axis(f[1, 1]; aspect=DataAspect())
