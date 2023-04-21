@@ -248,7 +248,7 @@ This implementation of automated SMCP<sup>3</sup> is implemented in this reposit
 1. [GenTraceKernelDSL](https://github.com/probcomp/GenTraceKernelDSL.jl): this introduces the DSL for writing probabilistic programs which are to be used as proposal distributions.  (The `@kernel` macro is a re-export from this library.)
 2. [DynamicForwardDiff](https://github.com/probcomp/DynamicForwardDiff.jl): this is an implementation of automatically sparsity-aware forward-mode automatic differentiation.  It is used to compute change-of-measures correction terms needed for the implementation of SMCP<sup>3</sup>.  In SMCP3, this correction is the absolute value of the determinant Jacobian of the function which maps the inputs to a probabilistic program proposal, and the collection of random choices of that probabilistic program, to the output of the probabilistic program proposal.  (See Theorem 2 of our paper for details.)
 
-### Citation
+## Citation
 Please cite
 ```
 @InProceedings{smcp3,
