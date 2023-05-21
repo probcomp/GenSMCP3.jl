@@ -20,6 +20,8 @@ To install GenSMCP3, first install Gen and ParticleFilters, then install GenSMCP
 ```julia
 ] add Gen
 ] add GenParticleFilters
+] add https://github.com/probcomp/DynamicForwardDiff.jl
+] add https://github.com/probcomp/GenTraceKernelDSL.jl
 ] add https://github.com/probcomp/GenSMCP3.jl
 ```
 
