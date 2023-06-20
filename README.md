@@ -186,7 +186,11 @@ function run_smcp3(observations, n_particles)
             # to improve performance.)
             (UnknownChange(),),
             
-            # update the latent state using an SMCP<sup>3</sup> update,
+            # update the trace to have this observation
+            # at the address "obs$t"
+            choicemap(("obs$t", observation)),
+
+            # update the latent state using an SMCP3 update,
             # with the forward and backward proposals defined above,
             # given the new observation as an additional argument
             # after the trace to be updated
@@ -195,11 +199,7 @@ function run_smcp3(observations, n_particles)
                 backward_proposal,
                 (observation,),
                 (observation,)
-            ),
-            
-            # update the trace to have this observation
-            # at the address "obs$t"
-            choicemap(("obs$t", observation))
+            )
         )
     end
     
@@ -217,10 +217,10 @@ end
 We can now run inference.  Here I show the inference results, first on a stream of 3 observed values (1, 2, 3), and then on a stream of 4 observed values (1, 2, 3, 10).
 ```julia
 inference_result_state = run_smcp3([1, 2, 3], 1000);
-empirical_expected_x = mean(inference_result_state, :x) # = 2.002
+empirical_expected_x = mean(inference_result_state, :x) # ≈ 2
 
 inference_result_state_2 = run_smcp3([1, 2, 3, 10], 1000);
-empirical_expected_x_2 = mean(inference_result_state, :x) # = 4.0002
+empirical_expected_x_2 = mean(inference_result_state, :x) # ≈ 4
 ```
 
 Note that in more sophisticated examples, the code could be written so that new observations are streamed into the particle filter online, rather than being passed in at the start in a vector.
@@ -245,6 +245,45 @@ familiar from Gen:
 As in Gen, `x = {:x} ~ f()` can be shortened to `x ~ f()`, and—for generative function or kernel calls—the `{*} ~ f()` syntax can be used to splice the choices made by `f` into the "top level" of the caller's choicemap.
 
 No stochasticity should be invoked in a kernel, except through `~` expressions.
+
+## SMCP3 Particle Filtering Methods (`pf_initialize` and `pf_update!`)
+The `pf_initialize` and `pf_update!` methods from [GenParticleFilters](https://github.com/probcomp/GenParticleFilters.jl)
+can be used to perform particle filtering with SMCP3 proposals.
+
+### `pf_update!`
+The `pf_update!` method is used to update a particle filtering state (containing one or multiple particles)
+using an SMCP3 proposal.  It is called as follows:
+```julia
+updated_pf_state = GenParticleFilters.pf_update!(
+        old_pf_state::Gen.ParticleFilterState,
+        new_args::Tuple,             # new argument tuple for the model
+        argdiffs::Tuple,             # tuple of `Gen.Diff` values, one for each argument
+        observations::Gen.ChoiceMap, # A `Gen.ChoiceMap` of new observations
+        update::SMCP3Update
+    )
+```
+
+### `pf_initialize`
+SMCP3 proposals can also be used at the first timestep of inference, as the proposal used to generate particles, when constructing an initial particle filter state.
+
+An SMCP3 initial proposal can be conceptualized as an SMCP3 update
+from the model which always returns an empty trace, to the model at the initial timestep.
+
+To write an SMCP3 proposal for the first timestep,
+write a forward and backward proposal using the `@kernel` DSL, as illustrated above.  The forward proposal kernel's first
+argument will be an empty Trace with no choices, and the backward proposal must output an empty constraint on the
+previous trace (as the previous trace is an empty trace, which therefore has no choices in it).  These forward and backward
+proposals can be used to construct an `SMCP3Update` object as illustrated above, and then a particle filter can be initialized as follows.
+
+```julia
+pf_state = GenParticleFilters.pf_initialize(
+    model::Gen.GenerativeFunction, # Model to run inference in
+    model_args::Tuple,             # Arguments to the model at the initial timestep
+    observations::Gen.ChoiceMap,   # Observations at the initial timestep
+    n_particles::Int,              # Number of particles to use
+    update::SMCP3Update            # Initial SMCP3 proposal
+)
+```
 
 ## Implementation of automated SMCP<sup>3</sup>, and related libraries
 This implementation of automated SMCP<sup>3</sup> is implemented in this repository, and the following two repositories we developed in the process of developing SMCP<sup>3</sup>:
