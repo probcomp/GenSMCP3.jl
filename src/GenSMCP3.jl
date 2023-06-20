@@ -1,10 +1,3 @@
-#=
-TODO: document the pf initialization methods, in GenTraceKernelDSL.jl and here.
-TODO: add an example of pf initialization to the readme.
-TODO: remove the method of pf_update! with the SMCP3Update before the observations,
-    and update the readme and examples.
-=#
-
 module GenSMCP3
 
 import Gen, GenParticleFilters, GenTraceKernelDSL
@@ -18,20 +11,6 @@ struct SMCP3Update
     check_are_inverses :: Bool
 end
 SMCP3Update(K, L, K_args, L_args) = SMCP3Update(K, L, K_args, L_args, false)
-
-# In the release of GenSMCP3, I introduced this method of pf_update!.
-# However, it now looks to me like it's more consistent with GenParticleFilters
-# to have the update after the observations.  So:
-# TODO: remove this method, and update the readme and examples.
-GenParticleFilters.pf_update!(
-    state::Gen.ParticleFilterState,
-    new_args::Tuple,
-    argdiffs::Tuple,
-    update::SMCP3Update,
-    observations::Gen.ChoiceMap,
-) = GenParticleFilters.pf_update!(
-    state, new_args, argdiffs, observations, update
-)
 
 function GenParticleFilters.pf_update!(
     state::Gen.ParticleFilterState,
