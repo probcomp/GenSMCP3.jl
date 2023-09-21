@@ -201,13 +201,13 @@ function run_smcp3(observations, n_particles)
                 (observation,)
             )
         )
-    end
-    
-    # Resample the particles whenever the ESS becomes too small.
-    # (This will duplicate high-weight particles, and prune low-weight particles.)
-    if effective_sample_size(state) < 1/5 * n_particles
-        # Perform residual resampling, pruning low-weight particles
-        pf_resample!(state, :residual)
+
+        # Resample the particles whenever the ESS becomes too small.
+        # (This will duplicate high-weight particles, and prune low-weight particles.)
+        if effective_sample_size(state) < 1/5 * n_particles
+            # Perform residual resampling, pruning low-weight particles
+            pf_resample!(state, :residual)
+        end
     end
     
     return state
